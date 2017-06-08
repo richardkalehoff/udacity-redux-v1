@@ -1,14 +1,16 @@
-import React, { Component } from 'react'
+import React, { Component }  from 'react'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import {
   setAuthedUser,
   receiveUsers,
   receiveBooks,
   setOwners,
   setBorrowers,
-} from './actions'
-import { getUsers } from './utils/usersAPI'
-import { getAll } from './utils/booksAPI'
+} from '../actions'
+import { getUsers } from '../utils/usersAPI'
+import { getAll } from '../utils/booksAPI'
+import BookCover from './BookCover'
 
 function formatUsers (users) {
   return Object.keys(users)
@@ -71,9 +73,9 @@ function parseBorrowedBooks ({ borrowers, books, users, authedId }) {
   }))
 }
 
-class App extends Component {
+class Dashboard extends Component {
   state = {
-    loading: true,
+    loading: true
   }
   componentDidMount () {
     const { dispatch } = this.props
@@ -95,41 +97,33 @@ class App extends Component {
   }
   render() {
     const { loading } = this.state
-
-    if (loading === true) {
-      return <p>Loading</p>
-    }
-
     const { authedId, books, borrowers, owners, users } = this.props
 
-    return (
+    return loading === true ? <p>LOADING</p> : (
       <div>
-        <nav>NAV</nav>
         <div>
-          <div>
-            <h1>Owned</h1>
-            <ul>
-              {parseOwnedBooks({ owners, users, authedId, books })
-                .map(({ book, borrower }) => (
-                  <li key={book.id}>
-                    Title: {book.title}
-                    { borrower && <span>borrower: {borrower.name}</span> }
-                  </li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <h1>Borrowed</h1>
-            <ul>
-              {parseBorrowedBooks({ borrowers, users, authedId, books })
-                .map(({ book, owner }) => (
-                  <li key={book.id}>
-                    Title: {book.title}
-                    owner: {owner.name}
-                  </li>
-              ))}
-            </ul>
-          </div>
+          <h1>Owned</h1>
+          <ul>
+            {parseOwnedBooks({ owners, users, authedId, books })
+              .map(({ book, borrower }) => (
+                <li key={book.id}>
+                  <BookCover title={book.title} thumbnail={book.thumbnail} />
+                  { borrower && <span>borrower: {borrower.name}</span> }
+                </li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <h1>Borrowed</h1>
+          <ul>
+            {parseBorrowedBooks({ borrowers, users, authedId, books })
+              .map(({ book, owner }) => (
+                <li key={book.id}>
+                  <BookCover title={book.title} thumbnail={book.thumbnail} />
+                  owner: {owner.name}
+                </li>
+            ))}
+          </ul>
         </div>
       </div>
     )
@@ -140,4 +134,4 @@ function mapStateToProps (state) {
   return state
 }
 
-export default connect(mapStateToProps)(App)
+export default withRouter(connect(mapStateToProps)(Dashboard))
