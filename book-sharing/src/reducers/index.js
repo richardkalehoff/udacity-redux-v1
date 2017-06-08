@@ -7,7 +7,7 @@ import {
   SET_BORROWERS,
 } from '../actions'
 
-function auth (state = '', action) {
+function authedId (state = '', action) {
   switch (action.type) {
     case SET_AUTHED_USER :
       return action.id
@@ -68,7 +68,7 @@ function borrowers (state = {}, action) {
 }
 
 export default combineReducers({
-  auth,
+  authedId,
   users,
   books,
   owners,
