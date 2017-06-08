@@ -6,12 +6,17 @@ export default function Nav () {
     <nav>
       <ul>
         <li>
-          <NavLink to='/add'>
+          <NavLink to='/' exact activeClassName='active'>
+            Home
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to='/add' activeClassName='active'>
             Add Book
           </NavLink>
         </li>
         <li>
-          <NavLink to='/books'>
+          <NavLink to='/books' activeClassName='active'>
             Search Books
           </NavLink>
         </li>
