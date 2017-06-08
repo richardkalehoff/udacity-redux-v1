@@ -4,12 +4,13 @@ import Dashboard from './Dashboard'
 import AddBook from './AddBook'
 import SearchBooks from './SearchBooks'
 import BookResult from './BookResult'
+import Nav from './Nav'
 
 export default function App () {
   return (
     <Router>
       <div>
-        <nav>NAV</nav>
+        <Nav />
         <Route path='/' exact component={Dashboard} />
         <Route path='/add' component={AddBook} />
         <Route path='/books' exact component={SearchBooks} />
