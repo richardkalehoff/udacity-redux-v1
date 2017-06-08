@@ -10,7 +10,8 @@ import {
 } from '../actions'
 import { getUsers } from '../utils/usersAPI'
 import { getAll } from '../utils/booksAPI'
-import BookCover from './BookCover'
+import Book from './Book'
+
 
 function formatUsers (users) {
   return Object.keys(users)
@@ -73,6 +74,20 @@ function parseBorrowedBooks ({ borrowers, books, users, authedId }) {
   }))
 }
 
+function UserPreview ({ type, user }) {
+  return (
+    <span>
+      {type}:
+        <img
+          style={{height: 30, width: 30}}
+          src={user.avatarURL}
+          alt={`Avatar for ${user.name}`}
+        />
+        {user.name}
+    </span>
+  )
+}
+
 class Dashboard extends Component {
   state = {
     loading: true
@@ -102,25 +117,27 @@ class Dashboard extends Component {
     return loading === true ? <p>LOADING</p> : (
       <div>
         <div>
-          <h1>Owned</h1>
+          <h1>Books you Own</h1>
           <ul>
             {parseOwnedBooks({ owners, users, authedId, books })
               .map(({ book, borrower }) => (
                 <li key={book.id}>
-                  <BookCover title={book.title} thumbnail={book.thumbnail} />
-                  { borrower && <span>borrower: {borrower.name}</span> }
+                  <Book book={book}>
+                    {borrower && <UserPreview type='Borrower' user={borrower} />}
+                  </Book>
                 </li>
             ))}
           </ul>
         </div>
         <div>
-          <h1>Borrowed</h1>
+          <h1>Books you've Borrowed</h1>
           <ul>
             {parseBorrowedBooks({ borrowers, users, authedId, books })
               .map(({ book, owner }) => (
                 <li key={book.id}>
-                  <BookCover title={book.title} thumbnail={book.thumbnail} />
-                  owner: {owner.name}
+                  <Book book={book}>
+                    <UserPreview type='Owner' user={owner} />
+                  </Book>
                 </li>
             ))}
           </ul>
