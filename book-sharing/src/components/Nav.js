@@ -11,11 +11,6 @@ export default function Nav () {
           </NavLink>
         </li>
         <li>
-          <NavLink to='/add' activeClassName='active'>
-            Add Book
-          </NavLink>
-        </li>
-        <li>
           <NavLink to='/books' activeClassName='active'>
             Search Books
           </NavLink>

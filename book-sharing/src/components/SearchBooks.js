@@ -42,7 +42,9 @@ class SearchBooks extends React.Component {
     if (query)
       this.execSearch(query)
   }
-
+  handleBorrowIt = (book) => {
+    this.props.history.push(`/books/${book.id}`, { book })
+  }
   render() {
     const { books, query } = this.state
     return (
@@ -62,9 +64,12 @@ class SearchBooks extends React.Component {
         </div>
 
         <div>
-          {books.map((book) => <Book key={book.id} book={book}>
-            <button>Borrow</button>
-          </Book>)}
+          {books.map((book) => (
+            <Book key={book.id} book={book}>
+              <button onClick={() => this.handleBorrowIt(book)}>Borrow it</button>
+              <button>I own it</button>
+            </Book>
+          ))}
         </div>
       </div>
     )
