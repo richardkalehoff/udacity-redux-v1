@@ -11,7 +11,7 @@ invariant(
 const api = 'https://www.googleapis.com/books/v1'
 
 function formatBook ({ volumeInfo }, id) {
-  const { title, authors, publisher, imageLinks, averageRating, description, publishedDate } =volumeInfo
+  const { title, authors, publisher, imageLinks, averageRating, description, publishedDate } = volumeInfo
 
   return {
     title,
@@ -20,11 +20,10 @@ function formatBook ({ volumeInfo }, id) {
     averageRating,
     description,
     publishedDate,
-    thumbnail: imageLinks.thumbnail,
+    thumbnail: imageLinks && imageLinks.thumbnail,
     id,
   }
 }
-
 
 const get = (token, id) =>
   fetch(`${api}/volumes/${id}?key=${apiKey}`)
@@ -38,6 +37,7 @@ const getAll = (token, bookIds) => {
 const search = (token, query, maxResults = 20) =>
   fetch(`${api}/volumes?key=${apiKey}&q=${encodeURIComponent(query)}&maxResults=${maxResults}&fields=items(id,volumeInfo)`)
     .then(res => res.json())
+    .then((books) => books.items.map((book) => formatBook(book, book.id)))
 
 module.exports = {
   get,

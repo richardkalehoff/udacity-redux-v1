@@ -11,20 +11,11 @@ const defaultData = {
       avatarURL: config.origin + '/ryan.jpg',
       books: {
         own: {
-          'PGR2AwAAQBAJ': {
-            id: 'PGR2AwAAQBAJ',
-            borrower: 'tylermcginnis33'
-          },
-          'yDtCuFHXbAYC': {
-            id: 'yDtCuFHXbAYC',
-            borrower: null,
-          }
+          'PGR2AwAAQBAJ': 'tylermcginnis33',
+          'yDtCuFHXbAYC': null,
         },
         borrowed: {
-          'uu1mC6zWNTwC': {
-            id: 'uu1mC6zWNTwC',
-            owner: 'tylermcginnis33'
-          }
+          'uu1mC6zWNTwC': 'tylermcginnis33'
         }
       }
     },
@@ -34,28 +25,13 @@ const defaultData = {
       avatarURL: config.origin + '/tyler.jpg',
       books: {
         own: {
-          'uu1mC6zWNTwC': {
-            id: 'uu1mC6zWNTwC',
-            borrower: 'ryanflorence'
-          },
-          'wrOQLV6xB-wC': {
-            id: 'wrOQLV6xB-wC',
-            borrower: 'mjackson',
-          },
-          'pD6arNyKyi8C': {
-            id: 'pD6arNyKyi8C',
-            borrower: 'mjackson'
-          }
+          'uu1mC6zWNTwC': 'ryanflorence',
+          'wrOQLV6xB-wC': null,
+          'pD6arNyKyi8C': 'mjackson',
         },
         borrowed: {
-          '1q_xAwAAQBAJ': {
-            id: '1q_xAwAAQBAJ',
-            owner: 'mjackson'
-          },
-          'PGR2AwAAQBAJ': {
-            id: 'PGR2AwAAQBAJ',
-            owner: 'ryanflorence'
-          }
+          '1q_xAwAAQBAJ': 'mjackson',
+          'PGR2AwAAQBAJ': 'ryanflorence',
         }
       }
     },
@@ -65,24 +41,11 @@ const defaultData = {
       avatarURL: config.origin + '/michael.jpg',
       books: {
         own: {
-          '1q_xAwAAQBAJ': {
-            id: '1q_xAwAAQBAJ',
-            borrower: 'tylermcginnis33'
-          },
-          '32haAAAAMAAJ': {
-            id: '32haAAAAMAAJ',
-            borrower: null,
-          }
+          '1q_xAwAAQBAJ': 'tylermcginnis33',
+          '32haAAAAMAAJ': null,
         },
         borrowed: {
-          'pD6arNyKyi8C': {
-            id: 'pD6arNyKyi8C',
-            owner: 'tylermcginnis33'
-          },
-          'wrOQLV6xB-wC': {
-            id: 'wrOQLV6xB-wC',
-            owner: 'tylermcginnis33'
-          }
+          'pD6arNyKyi8C': 'tylermcginnis33',
         }
       }
     }
