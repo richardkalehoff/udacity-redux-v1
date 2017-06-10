@@ -12,7 +12,7 @@ export default function Book ({ book, children }) {
       <BookCover title={title} thumbnail={thumbnail} />
       <ul>
         {children && <li>{children}</li>}
-        {averageRating && <li>Rating: {averageRating}</li>}
+        {averageRating && <li>Rating: {averageRating}/5</li>}
         {publishedDate && <li>Published: {formatDate(publishedDate)}</li>}
         {description && <li dangerouslySetInnerHTML={{__html: description}} />}
       </ul>

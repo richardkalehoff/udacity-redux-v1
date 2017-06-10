@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { get } from '../utils/booksAPI'
 import Book from './Book'
-import { borrowBook } from '../actions'
+import { borrowBook, returnBook } from '../actions'
 
 class BookResult extends Component {
   state = {
@@ -21,7 +21,7 @@ class BookResult extends Component {
   }
   render() {
     const { loading, book } = this.state
-    const { availableFrom, dispatch, authedId, alreadyOwned, alreadyBorrowed } = this.props
+    const { availableFrom, dispatch, authedId, alreadyOwned, borrowedFrom } = this.props
 
     if (loading === true) {
       return <div>Loading</div>
@@ -36,11 +36,12 @@ class BookResult extends Component {
       )
     }
 
-    if (alreadyBorrowed) {
+    if (borrowedFrom) {
       return (
         <div>
           <Book book={book} />
-          <div>You already borrowed this book. Add option to return it.</div>
+          <div>You borrowed this book from {borrowedFrom.name}</div>
+          <button onClick={() => dispatch(returnBook({authedId, bookId: book.id, ownerId: borrowedFrom.id}))}>Return Book</button>
         </div>
       )
     }
@@ -68,8 +69,8 @@ class BookResult extends Component {
 function mapStateToProps ({ owners, users, books, authedId, borrowers }, { match }) {
   const bookId = match.params.id
   const { allIds, byId } = owners
-  const alreadyOwned = !!byId[authedId] && !!byId[authedId][bookId]
-  const alreadyBorrowed = !!borrowers[authedId] && !!borrowers[authedId][bookId]
+  const alreadyOwned = byId[authedId] && typeof byId[authedId][bookId] !== 'undefined'
+  const borrowedFrom = borrowers[authedId] && users[borrowers[authedId][bookId]]
   const availableFrom = allIds.filter((uid) => byId[uid][bookId] === null )
     .map((id) => users[id])
 
@@ -78,7 +79,7 @@ function mapStateToProps ({ owners, users, books, authedId, borrowers }, { match
     availableFrom,
     authedId,
     alreadyOwned,
-    alreadyBorrowed,
+    borrowedFrom,
   }
 }
 

@@ -3,7 +3,7 @@ import throttle from 'lodash.throttle'
 import { Link } from 'react-router-dom'
 import { search } from '../utils/booksAPI'
 import Book from './Book'
-import { receiveBooks } from '../actions'
+import { receiveBooks, ownBook } from '../actions'
 import { connect } from 'react-redux'
 
 function toObject (books) {
@@ -57,6 +57,8 @@ class SearchBooks extends React.Component {
   }
   render() {
     const { books, query } = this.state
+    const { authedId, dispatch, authedUsersBooks } = this.props
+
     return (
       <div>
         <div>
@@ -76,8 +78,12 @@ class SearchBooks extends React.Component {
         <div>
           {books.map((book) => (
             <Book key={book.id} book={book}>
-              <button onClick={() => this.handleBorrowIt(book)}>Borrow it</button>
-              <button>I own it</button>
+              {authedUsersBooks && typeof authedUsersBooks[book.id] !== 'undefined'
+                ? <div>You own this</div>
+                : <div>
+                    <button onClick={() => this.handleBorrowIt(book)}>Borrow it</button>
+                    <button onClick={() => dispatch(ownBook({ authedId, bookId: book.id}))}>I own it</button>
+                  </div>}
             </Book>
           ))}
         </div>
@@ -86,4 +92,11 @@ class SearchBooks extends React.Component {
   }
 }
 
-export default connect()(SearchBooks)
+function mapStateToProps ({ authedId, owners }) {
+  return {
+    authedId,
+    authedUsersBooks: owners.byId[authedId],
+  }
+}
+
+export default connect(mapStateToProps)(SearchBooks)

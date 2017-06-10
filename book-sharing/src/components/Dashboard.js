@@ -1,6 +1,7 @@
 import React, { Component }  from 'react'
 import { connect } from 'react-redux'
 import Book from './Book'
+import { returnBook } from '../actions'
 
 function parseOwnedBooks ({ owners, users, authedId, books }) {
   return Object.keys(owners.byId[authedId]).map((bookId) => ({
@@ -32,36 +33,40 @@ function UserPreview ({ type, user }) {
 
 class Dashboard extends Component {
   render() {
-    const { authedId, books, borrowers, owners, users } = this.props
+    const { authedId, books, borrowers, owners, users, dispatch } = this.props
+    const booksBorrowed = parseBorrowedBooks({ borrowers, users, authedId, books })
+    const booksOwned = parseOwnedBooks({ owners, users, authedId, books })
 
     return (
       <div>
         <div>
           <h1>Books you Own</h1>
-          <ul>
-            {parseOwnedBooks({ owners, users, authedId, books })
-              .map(({ book, borrower }) => (
-                <li key={book.id}>
-                  <Book book={book}>
-                    {borrower && <UserPreview type='Borrower' user={borrower} />}
-                  </Book>
-                </li>
-            ))}
-          </ul>
+          {booksOwned.length === 0
+            ? <div>You dont own any books</div>
+            : <ul>
+                {booksOwned.map(({ book, borrower }) => (
+                    <li key={book.id}>
+                      <Book book={book}>
+                        {borrower && <UserPreview type='Borrower' user={borrower} />}
+                      </Book>
+                    </li>
+                ))}
+              </ul>}
         </div>
         <div>
           <h1>Books you've Borrowed</h1>
-          <ul>
-            {parseBorrowedBooks({ borrowers, users, authedId, books })
-              .map(({ book, owner }) => (
-                <li key={book.id}>
-                  <Book book={book}>
-                    <UserPreview type='Owner' user={owner} />
-                    <button>Return Book</button>
-                  </Book>
-                </li>
-            ))}
-          </ul>
+          {booksBorrowed.length === 0
+            ? <div>You havent borrowed any books</div>
+            : <ul>
+                {booksBorrowed.map(({ book, owner }) => (
+                    <li key={book.id}>
+                      <Book book={book}>
+                        <UserPreview type='Owner' user={owner} />
+                        <button onClick={() => dispatch(returnBook({ authedId, bookId: book.id, ownerId: owner.id}))}>Return Book</button>
+                      </Book>
+                    </li>
+                ))}
+              </ul>}
         </div>
       </div>
     )

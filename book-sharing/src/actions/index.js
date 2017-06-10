@@ -5,6 +5,7 @@ export const SET_OWNERS = 'SET_OWNERS'
 export const SET_BORROWERS = 'SET_BORROWERS'
 export const BORROW_BOOK = 'BORROW_BOOK'
 export const RETURN_BOOK = 'RETURN_BOOK'
+export const OWN_BOOK = 'OWN_BOOK'
 
 export function setAuthedUser (id) {
   return {
@@ -56,5 +57,13 @@ export function returnBook ({ authedId, bookId, ownerId }) {
     bookId,
     authedId,
     ownerId,
+  }
+}
+
+export function ownBook ({authedId, bookId}) {
+  return {
+    type: OWN_BOOK,
+    authedId,
+    bookId,
   }
 }

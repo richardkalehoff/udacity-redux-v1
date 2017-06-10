@@ -7,6 +7,7 @@ import {
   SET_BORROWERS,
   BORROW_BOOK,
   RETURN_BOOK,
+  OWN_BOOK,
 } from '../actions'
 
 function authedId (state = null, action) {
@@ -70,6 +71,17 @@ function owners (state = { byId: {}, allIds: [] }, action) {
           [ownerId]: {
             ...state.byId[ownerId],
             [bookId]: authedId,
+          }
+        }
+      }
+    case OWN_BOOK :
+      return {
+        allIds: state.allIds.includes(authedId) ? state.allIds : state.allIds.concat(authedId),
+        byId: {
+          ...state.byId,
+          [authedId]: {
+            ...state.byId[authedId],
+            [bookId]: null
           }
         }
       }
