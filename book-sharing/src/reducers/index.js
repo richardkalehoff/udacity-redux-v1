@@ -7,7 +7,7 @@ import {
   SET_BORROWERS,
 } from '../actions'
 
-function authedId (state = '', action) {
+function authedId (state = null, action) {
   switch (action.type) {
     case SET_AUTHED_USER :
       return action.id

@@ -3,6 +3,7 @@ import React from 'react'
 class BookCover extends React.Component {
   static defaultProps = {
     maxWidth: 140,
+    thumbnail: ''
   }
   state = {
     image: null,
