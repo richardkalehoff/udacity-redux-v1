@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { get } from '../utils/booksAPI'
 import Book from './Book'
+import { borrowBook } from '../actions'
 
 class BookResult extends Component {
   state = {
@@ -20,28 +21,64 @@ class BookResult extends Component {
   }
   render() {
     const { loading, book } = this.state
+    const { availableFrom, dispatch, authedId, alreadyOwned, alreadyBorrowed } = this.props
+
+    if (loading === true) {
+      return <div>Loading</div>
+    }
+
+    if (alreadyOwned) {
+      return (
+        <div>
+          <Book book={book} />
+          <div>You already own this book.</div>
+        </div>
+      )
+    }
+
+    if (alreadyBorrowed) {
+      return (
+        <div>
+          <Book book={book} />
+          <div>You already borrowed this book. Add option to return it.</div>
+        </div>
+      )
+    }
 
     return (
       <div>
-        {loading === true
-          ? <p>LOADING</p>
+        <Book book={book} />
+        {availableFrom.length === 0
+          ? <p> This book is not available </p>
           : <div>
-              <Book book={book} />
-              <div>Available From: {JSON.stringify(this.props.availableFrom)}</div>
+              <h1>Borrow from...</h1>
+              {availableFrom.map(({ id, name, avatarURL }) => (
+                <div key={id}>
+                  <img src={avatarURL} alt={`Avatar for ${name}`} style={{height: 50, width: 50}}/>
+                  <span>{name}</span>
+                  <button onClick={() => dispatch(borrowBook({authedId, ownerId: id, bookId: book.id}))}>Borrow</button>
+                </div>
+              ))}
             </div>}
       </div>
     )
   }
 }
 
-function mapStateToProps ({ owners, users, books }, { match }) {
+function mapStateToProps ({ owners, users, books, authedId, borrowers }, { match }) {
   const bookId = match.params.id
   const { allIds, byId } = owners
-  const availableFrom = allIds.filter((uid) => byId[uid][bookId] && byId[uid][bookId].borrower === null)
+  const alreadyOwned = !!byId[authedId] && !!byId[authedId][bookId]
+  const alreadyBorrowed = !!borrowers[authedId] && !!borrowers[authedId][bookId]
+  const availableFrom = allIds.filter((uid) => byId[uid][bookId] === null )
+    .map((id) => users[id])
 
   return {
     book: books[bookId],
-    availableFrom
+    availableFrom,
+    authedId,
+    alreadyOwned,
+    alreadyBorrowed,
   }
 }
 

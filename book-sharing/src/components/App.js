@@ -64,9 +64,9 @@ function formatBooks (books) {
 
 class App extends Component {
   componentDidMount () {
-    if (this.props.loading === true) {
-      const { dispatch, loading } = this.props
+    const { dispatch, loading  } = this.props
 
+    if (loading === true) {
       getUsers().then((users) => {
         const userIds = Object.keys(users)
 

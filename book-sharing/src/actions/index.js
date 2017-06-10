@@ -3,6 +3,8 @@ export const RECEIVE_USERS = 'RECEIVE_USERS'
 export const RECEIVE_BOOKS = 'RECEIVE_BOOKS'
 export const SET_OWNERS = 'SET_OWNERS'
 export const SET_BORROWERS = 'SET_BORROWERS'
+export const BORROW_BOOK = 'BORROW_BOOK'
+export const RETURN_BOOK = 'RETURN_BOOK'
 
 export function setAuthedUser (id) {
   return {
@@ -39,27 +41,20 @@ export function setBorrowers (borrowers) {
   }
 }
 
-// export function requestUsers () {
-//   return {
-//     type: REQUEST_USERS
-//   }
-// }
+export function borrowBook ({ ownerId, authedId, bookId }) {
+  return {
+    type: BORROW_BOOK,
+    ownerId,
+    bookId,
+    authedId,
+  }
+}
 
-// do in didMount? no need for thunk
-// export function fetchUsers (dispatch) {
-//   dispatch(requestUsers)
-//   // API REQ
-// }
-
-// export function requestBook () {
-//   return {
-//     type: REQUEST_BOOK,
-//   }
-// }
-
-// do in didMount? no need for thunk
-// export function fetchBook (dispatch) {
-//   dispatch(requestBook())
-//   // API REQ
-// }
-
+export function returnBook ({ authedId, bookId, ownerId }) {
+  return {
+    type: RETURN_BOOK,
+    bookId,
+    authedId,
+    ownerId,
+  }
+}

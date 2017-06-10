@@ -5,6 +5,8 @@ import {
   RECEIVE_BOOKS,
   SET_OWNERS,
   SET_BORROWERS,
+  BORROW_BOOK,
+  RETURN_BOOK,
 } from '../actions'
 
 function authedId (state = null, action) {
@@ -40,15 +42,36 @@ function books (state = {}, action) {
   }
 }
 
-function owners (state = {
-  byId: {},
-  allIds: [],
-}, action) {
+function owners (state = { byId: {}, allIds: [] }, action) {
+  const { bookId, ownerId, authedId, owners } = action
+
   switch (action.type) {
     case SET_OWNERS :
       return {
         ...state,
-        ...action.owners,
+        ...owners,
+      }
+    case RETURN_BOOK :
+      return {
+        ...state,
+        byId: {
+          ...state.byId,
+          [ownerId]: {
+            ...state.byId[ownerId],
+            [bookId]: null
+          }
+        }
+      }
+    case BORROW_BOOK :
+      return {
+        ...state,
+        byId: {
+          ...state.byId,
+          [ownerId]: {
+            ...state.byId[ownerId],
+            [bookId]: authedId,
+          }
+        }
       }
     default :
       return state
@@ -56,11 +79,31 @@ function owners (state = {
 }
 
 function borrowers (state = {}, action) {
+  const { authedId, ownerId, bookId, borrowers } = action
+
   switch (action.type) {
     case SET_BORROWERS :
       return {
         ...state,
-        ...action.borrowers,
+        ...borrowers,
+      }
+    case RETURN_BOOK :
+      return {
+        ...state,
+        [authedId]: Object.keys(state[authedId])
+          .filter((bid) => bid !== bookId)
+          .reduce((books, bid) => {
+            books[bid] = state[authedId][bid]
+            return books
+          }, {})
+      }
+    case BORROW_BOOK :
+      return {
+        ...state,
+        [authedId]: {
+          ...state[authedId],
+          [bookId]: ownerId,
+        }
       }
     default :
       return state

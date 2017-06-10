@@ -3,16 +3,16 @@ import { connect } from 'react-redux'
 import Book from './Book'
 
 function parseOwnedBooks ({ owners, users, authedId, books }) {
-  return Object.keys(owners.byId[authedId]).map((id) => ({
-    book: books[id],
-    borrower: users[owners.byId[authedId][id].borrower]
+  return Object.keys(owners.byId[authedId]).map((bookId) => ({
+    book: books[bookId],
+    borrower: users[owners.byId[authedId][bookId]]
   }))
 }
 
 function parseBorrowedBooks ({ borrowers, books, users, authedId }) {
-  return Object.keys(borrowers[authedId]).map((id) => ({
-    book: books[id],
-    owner: users[borrowers[authedId][id].owner]
+  return Object.keys(borrowers[authedId]).map((bookId) => ({
+    book: books[bookId],
+    owner: users[borrowers[authedId][bookId]]
   }))
 }
 
@@ -57,6 +57,7 @@ class Dashboard extends Component {
                 <li key={book.id}>
                   <Book book={book}>
                     <UserPreview type='Owner' user={owner} />
+                    <button>Return Book</button>
                   </Book>
                 </li>
             ))}
