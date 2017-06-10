@@ -3,6 +3,15 @@ import throttle from 'lodash.throttle'
 import { Link } from 'react-router-dom'
 import { search } from '../utils/booksAPI'
 import Book from './Book'
+import { receiveBooks } from '../actions'
+import { connect } from 'react-redux'
+
+function toObject (books) {
+  return books.reduce((results, book) => {
+    results[book.id] = book
+    return results
+  }, {})
+}
 
 class SearchBooks extends React.Component {
   state = {
@@ -13,6 +22,7 @@ class SearchBooks extends React.Component {
   execSearch = (query) => {
     const result = this.currentSearch = search(query).then((books) => {
       if (this.currentSearch === result)
+        this.props.dispatch(receiveBooks(toObject(books)))
         this.setState({ books })
     })
   }
@@ -43,7 +53,7 @@ class SearchBooks extends React.Component {
       this.execSearch(query)
   }
   handleBorrowIt = (book) => {
-    this.props.history.push(`/books/${book.id}`, { book })
+    this.props.history.push(`/books/${book.id}`)
   }
   render() {
     const { books, query } = this.state
@@ -76,4 +86,4 @@ class SearchBooks extends React.Component {
   }
 }
 
-export default SearchBooks
+export default connect()(SearchBooks)

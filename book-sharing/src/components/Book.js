@@ -2,7 +2,9 @@ import React from 'react'
 import BookCover from './BookCover'
 
 function formatDate (date) {
-  return `${date.slice(5).replace('-','/')}/${date.slice(0, 4)}`
+  return date
+    ? `${date.slice(5).replace('-','/')}/${date.slice(0, 4)}`
+    : 'N/A'
 }
 
 export default function Book ({ book, children }) {
