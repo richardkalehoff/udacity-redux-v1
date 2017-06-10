@@ -82,17 +82,17 @@ class App extends Component {
     }
   }
   render() {
-    if (this.props.loading === true) {
-      return <p>Loading</p>
-    }
-
     return (
       <Router>
         <div>
           <Nav />
-          <Route path='/' exact component={Dashboard} />
-          <Route path='/books' exact component={SearchBooks} />
-          <Route path='/books/:id' component={BookResult} />
+          {this.props.loading === true
+            ? <p>Loading</p>
+            : <div>
+                <Route path='/' exact component={Dashboard} />
+                <Route path='/books' exact component={SearchBooks} />
+                <Route path='/books/:id' component={BookResult} />
+              </div>}
         </div>
       </Router>
     )

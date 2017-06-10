@@ -1,6 +1,5 @@
 import React from 'react'
 import throttle from 'lodash.throttle'
-import { Link } from 'react-router-dom'
 import { search } from '../utils/booksAPI'
 import Book from './Book'
 import { receiveBooks, ownBook } from '../actions'
@@ -16,26 +15,25 @@ function toObject (books) {
 class SearchBooks extends React.Component {
   state = {
     books: [],
-    query: ''
+    query: '',
+    loading: false,
   }
 
   execSearch = (query) => {
-    const result = this.currentSearch = search(query).then((books) => {
-      if (this.currentSearch === result)
-        this.props.dispatch(receiveBooks(toObject(books)))
-        this.setState({ books })
+    search(query).then((books) => {
+      this.props.dispatch(receiveBooks(toObject(books)))
+      this.setState({ books, loading: false })
     })
   }
 
   updateQuery(query) {
-    this.currentSearch = null
-
     if (query)
       this.execSearch(query)
 
     this.setState({
       books: [],
-      query
+      query,
+      loading: true
     })
   }
 
@@ -46,47 +44,38 @@ class SearchBooks extends React.Component {
       leading: false,
       trailing: true
     })
-
-    const { query } = this.state
-
-    if (query)
-      this.execSearch(query)
   }
   handleBorrowIt = (book) => {
     this.props.history.push(`/books/${book.id}`)
   }
   render() {
-    const { books, query } = this.state
+    const { books, query, loading } = this.state
     const { authedId, dispatch, authedUsersBooks } = this.props
 
     return (
       <div>
-        <div>
-          <Link to="/">Close</Link>
+        <input
+          type="text"
+          value={query}
+          onChange={event => this.updateQuery(event.target.value)}
+          ref={node => this.input = node}
+          placeholder="Search by title, author, or ISBN"
+        />
 
-          <div>
-            <input
-              type="text"
-              value={query}
-              onChange={event => this.updateQuery(event.target.value)}
-              ref={node => this.input = node}
-              placeholder="Search by title, author, or ISBN"
-            />
-          </div>
-        </div>
-
-        <div>
-          {books.map((book) => (
-            <Book key={book.id} book={book}>
-              {authedUsersBooks && typeof authedUsersBooks[book.id] !== 'undefined'
-                ? <div>You own this</div>
-                : <div>
-                    <button onClick={() => this.handleBorrowIt(book)}>Borrow it</button>
-                    <button onClick={() => dispatch(ownBook({ authedId, bookId: book.id}))}>I own it</button>
-                  </div>}
-            </Book>
-          ))}
-        </div>
+        {loading === true
+          ? <p> Loading </p>
+          : <div>
+              {books.map((book) => (
+                <Book key={book.id} book={book}>
+                  {authedUsersBooks && typeof authedUsersBooks[book.id] !== 'undefined'
+                    ? <div>You own this</div>
+                    : <div>
+                        <button onClick={() => this.handleBorrowIt(book)}>Borrow it</button>
+                        <button onClick={() => dispatch(ownBook({ authedId, bookId: book.id}))}>I own it</button>
+                      </div>}
+                </Book>
+              ))}
+            </div>}
       </div>
     )
   }
