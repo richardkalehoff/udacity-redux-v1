@@ -4,40 +4,41 @@ Lesson 0:
         Headshot (A)
           State management. (Bugs come from state mismanagement)
           Shared/Cached state in React. Move to "store"
-    - Three Principles of Redux
+    - How Redux improves predictability
         Headshot (B)
           How Redux leads to more predictable state changes
-    - App vs Component State
+    - Redux Store vs Component State
         Headshot (C)
           Pros and cons of "store"
           Which state where
 Lesson 1:
   SWBAT create and add data to a Redux store (/users)
-    - Reducers
+    - Reducers (Create Redcuers)
         Headshot (D)
           Create the shape of your store
           Specificy how store will change based off events
         Screencast
           Create users Reducer
-    - Actions
+    - Actions (Create actions)
         Headshot (E)
           Actions
-    - react-redux/createStore/Provider
+    - createStore (Create a redux store)
         Headshot (F)
           createStore
           Show properties on store.
         Screencast
           Use createStore to create a store.
           log properties
-        Headshot (G)
+    - react-redux (Use the react-redux bindings)
+        Headshot (G) ()
           So far, "vanilla Redux". Nothing React specific. Tie Redux to React
           react-redux
             Two main purposes of react-redux, provider and connect
-        Headshot (H)
+        Headshot (H) (Use react-redux's connect method)
           connect
             dispatch
             mapStateToProps
-        Headshot (I)
+        Headshot (I) (Use react-redux's connect method)
           Provider
         Screencast
           Wrap App with a Provider
@@ -50,7 +51,7 @@ Lesson 1:
         ScreenCast
           getUsers -> dispatch receiveUsers
 Lessons 2:
-  SWBAT use Reducer composition to architect their Redux stores
+  SWBAT use Reducer composition to architect Redux stores
     - combineReducers
         Headshot
         Screencast
