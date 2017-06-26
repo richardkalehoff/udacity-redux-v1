@@ -10,7 +10,7 @@ const headers = {
   'Authorization': token
 }
 
-export function getUsers (bookId) {
+export function getUsers () {
   return fetch(`${api}/users`, { headers })
     .then((res) => res.json())
     .then((data) => data.users)

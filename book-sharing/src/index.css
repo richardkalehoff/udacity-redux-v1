@@ -4,6 +4,44 @@ body {
   font-family: sans-serif;
 }
 
+a {
+  text-decoration: none;
+  color: #252525;
+}
+
+li {
+  list-style-type: none;
+  text-decoration: none;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.dashboard-toggle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 22px;
+}
+
+.dashboard-toggle button {
+  border: none;
+  background: transparent;
+  font-size: 22px;
+}
+
+.dashboard-list {
+  font-size: 18px;
+  letter-spacing: .4px;
+}
+
+.dashboard-list a:hover {
+  font-weight: 600;
+}
+
+
 .book-cover {
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
   background: #eee;
@@ -16,4 +54,52 @@ body {
 
 .active {
   font-weight: bold;
+}
+
+.nav ul {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  text-decoration: none;
+}
+
+.nav li {
+  padding: 10px;
+}
+
+.book-container {
+  display: flex;
+  margin-bottom: 50px;
+}
+
+.book-container ul {
+  flex: 1;
+}
+
+.book-title {
+  font-size: 35px;
+}
+
+.react-rater {
+  display: inline-block;
+  line-height: normal;
+}
+.react-rater a {
+  cursor: pointer;
+  color: #ccc;
+  position: relative;
+}
+.react-rater a.is-active {
+  color: #fc6;
+}
+.react-rater a.is-active-half:before {
+  color: #fc6;
+  content: '\2605';
+  position: absolute;
+  left: 0;
+  width: 50%;
+  overflow: hidden;
+}
+.react-rater a.is-disabled {
+  cursor: default;
 }

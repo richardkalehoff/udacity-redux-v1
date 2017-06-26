@@ -52,7 +52,7 @@ const defaultData = {
   }
 }
 
-const get = (token) => {
+function getData (token) {
   let data = db[token]
 
   if (data == null) {
@@ -60,6 +60,12 @@ const get = (token) => {
   }
 
   return data
+}
+
+const get = (token, id) => {
+  return new Promise((res) => {
+    res(getData(token))
+  })
 }
 
 module.exports = {

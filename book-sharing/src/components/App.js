@@ -84,7 +84,7 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <div>
+        <div className='container'>
           <Nav />
           {this.props.loading === true
             ? <p>Loading</p>

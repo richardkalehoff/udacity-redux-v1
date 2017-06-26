@@ -41,7 +41,17 @@ app.use((req, res, next) => {
 })
 
 app.get('/users', (req, res) => {
-  res.send(users.get(req.token))
+  users.get(req.token)
+    .then(
+      (users) => res.send(users),
+      (error) => {
+        console.error(error)
+
+        res.status(500).send({
+          error: 'There was an error retrieving the questions'
+        })
+      }
+    )
 })
 
 app.listen(config.port, () => {

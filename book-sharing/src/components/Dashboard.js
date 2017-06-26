@@ -17,57 +17,66 @@ function parseBorrowedBooks ({ borrowers, books, users, authedId }) {
   }))
 }
 
-function UserPreview ({ type, user }) {
-  return (
-    <span>
-      {type}:
-        <img
-          style={{height: 30, width: 30}}
-          src={user.avatarURL}
-          alt={`Avatar for ${user.name}`}
-        />
-        {user.name}
-    </span>
-  )
-}
-
 class Dashboard extends Component {
+  state = {
+    showBooksOwned: true,
+  }
+  showBooksOwned = () => {
+    this.setState({
+      showBooksOwned: true,
+    })
+  }
+  showBooksBorrowed = () => {
+    this.setState({
+      showBooksOwned: false,
+    })
+  }
   render() {
     const { authedId, books, borrowers, owners, users, dispatch } = this.props
+    const { showBooksOwned } = this.state
     const booksBorrowed = parseBorrowedBooks({ borrowers, users, authedId, books })
     const booksOwned = parseOwnedBooks({ owners, users, authedId, books })
 
     return (
       <div>
-        <div>
-          <h1>Books you Own</h1>
-          {booksOwned.length === 0
-            ? <div>You dont own any books</div>
-            : <ul>
-                {booksOwned.map(({ book, borrower }) => (
-                    <li key={book.id}>
-                      <Book book={book}>
-                        {borrower && <UserPreview type='Borrower' user={borrower} />}
-                      </Book>
-                    </li>
-                ))}
-              </ul>}
+        <div className='dashboard-toggle'>
+          <button
+            style={{textDecoration: showBooksOwned === true ? 'underline' : null}}
+            onClick={this.showBooksOwned}>
+              Books Owned
+          </button>
+          <span> | </span>
+          <button
+            style={{textDecoration: showBooksOwned === false ? 'underline' : null}}
+            onClick={this.showBooksBorrowed}>
+              Books Borrowed
+          </button>
         </div>
-        <div>
-          <h1>Books you've Borrowed</h1>
-          {booksBorrowed.length === 0
-            ? <div>You havent borrowed any books</div>
-            : <ul>
-                {booksBorrowed.map(({ book, owner }) => (
-                    <li key={book.id}>
-                      <Book book={book}>
-                        <UserPreview type='Owner' user={owner} />
-                        <button onClick={() => dispatch(returnBook({ authedId, bookId: book.id, ownerId: owner.id}))}>Return Book</button>
-                      </Book>
-                    </li>
-                ))}
-              </ul>}
-        </div>
+        <ul className='dashboard-list'>
+          {showBooksOwned === true
+            ? booksOwned.map(({ book, borrower }) => (
+                <li key={book.id}>
+                  <Book book={book}>
+                    {borrower && (
+                      <p style={{fontWeight: 'bold', fontStyle: 'italic'}}>*This book is currently being borrowed by {borrower.name}</p>
+                    )}
+                  </Book>
+                </li>
+              ))
+            : booksBorrowed.map(({ book, owner }) => (
+                <li key={book.id}>
+                  <Book book={book}>
+                    <div>
+                      <p>You borrowed this book from {owner.name}</p>
+                    </div>
+                    <button
+                      onClick={() => dispatch(returnBook({ authedId, bookId: book.id, ownerId: owner.id}))}>
+                        Return Book
+                    </button>
+                  </Book>
+                </li>
+              ))}
+        </ul>
       </div>
     )
   }

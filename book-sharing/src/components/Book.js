@@ -1,20 +1,19 @@
 import React from 'react'
 import BookCover from './BookCover'
-
-function formatDate (date) {
-  return date.slice(0,4)
-}
+import Rater from 'react-rater'
 
 export default function Book ({ book, children }) {
-  const { title, thumbnail, averageRating, publishedDate, description } = book
+  const { title, thumbnail, averageRating, description, authors } = book
+
   return (
-    <div>
+    <div className='book-container'>
       <BookCover title={title} thumbnail={thumbnail} />
       <ul>
-        {children && <li>{children}</li>}
-        {averageRating && <li>Rating: {averageRating}/5</li>}
-        {publishedDate && <li>Published: {formatDate(publishedDate)}</li>}
+        {title && <li className='book-title'>{title}</li>}
+        {authors && <li>{book.authors.join(', ')}</li>}
+        {averageRating && <li style={{marginBottom: 10}}><Rater interactive={false} rating={averageRating} /></li>}
         {description && <li dangerouslySetInnerHTML={{__html: description}} />}
+        {children && <li>{children}</li>}
       </ul>
     </div>
   )

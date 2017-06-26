@@ -52,13 +52,112 @@ Lesson 1:
           getUsers -> dispatch receiveUsers
 Lessons 2:
   SWBAT use Reducer composition to architect Redux stores
-    - combineReducers
+    - combineReducers (J)
         Headshot
         Screencast
           Implement authedUser
     - Normalization
         Headshot
         Finish building the rest of the app
+
+
+(J)
+function todoApp(state = initialState, action) {
+  if (action.type === 'ADD_TODO') {
+    return {
+      ...state,
+      todos: state.todos.concat(action.todo)
+    }
+  }
+
+  return state
+}
+
+Now what if we add visibilityFilter
+
+function todoApp(state = initialState, action) {
+  if (action.type === 'ADD_TODO') {
+    return {
+      ...state,
+      todos: state.todos.concat(action.todo)
+    }
+  } else if (action.type === 'SET_VISIBILITY_FILTER') {
+    return {
+      ...state,
+      visibilityFilter: action.filter,
+    }
+  }
+
+  return state
+}
+
+Now, what if we want to remove a Todo?
+
+function todoApp(state = initialState, action) {
+  if (action.type === 'ADD_TODO') {
+    return {
+      ...state,
+      todos: state.todos.concat(action.todo)
+    }
+  } else if (action.type === 'SET_VISIBILITY_FILTER') {
+    return {
+      ...state,
+      visibilityFilter: action.filter,
+    }
+  } else if (action.type === 'REMOVE_TODO') {
+    return {
+      ...state,
+      todos: state.todos.filter(({id}) => text === action.id)
+    }
+  }
+
+  return state
+}
+
+Little heavy. First change, switch
+
+function todoApp(state = initialState, action) {
+  switch (action.type) {
+    case 'ADD_TODO' :
+      return {
+        ...state,
+        todos: state.todos.concat(action.todo)
+      }
+    case 'REMOVE_TODO' :
+      return {
+        ...state,
+        visibilityFilter: action.filter,
+      }
+    case 'SET_VISIBILITY_FILTER' :
+      return {
+        ...state,
+        todos: state.todos.filter(({id}) => text === action.id)
+      }
+    default :
+      return state
+  }
+}
+
+Now, make new function for each slice.
+
+function todos (state = [], action) {
+  switch () {
+
+  }
+}
+
+function todoApp(state = {}, action) {
+  switch (action.type) {
+    case 'ADD_TODO' :
+    case 'REMOVE_TODO' :
+      return todos(state.todos, action)
+    case 'SET_VISIBILITY_FILTER' :
+      return visibilityFilter(state.visibilityFilter, action)
+    default :
+      return state
+  }
+}
+
 
 (D) Reducers code
 
@@ -234,6 +333,11 @@ class TodoList extends Component {
 
 export default connect()(TodoList)
 
+
+
+
+
+
 function todoApp(state = initialState, action) {
   if (action.type === 'ADD_TODO') {
     return {
@@ -257,8 +361,6 @@ class TodoList extends Component {
     )
   }
 }
-
-
 
 function mapStateToProps (state) {
   return {
