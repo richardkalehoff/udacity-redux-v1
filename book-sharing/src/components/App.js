@@ -11,8 +11,7 @@ import {
   setOwners,
   setBorrowers,
 } from '../actions'
-import { getUsers } from '../utils/usersAPI'
-import { getAll } from '../utils/booksAPI'
+import { getAllBooks, getUsers } from '../utils/api'
 import { connect } from 'react-redux'
 import ReactLoading from 'react-loading'
 
@@ -75,7 +74,7 @@ class App extends Component {
         dispatch(setOwners(parseOwners(userIds, users)))
         dispatch(setBorrowers(parseBorrowers(userIds, users)))
 
-        getAll(parseBookIds(userIds, users))
+        getAllBooks(parseBookIds(userIds, users))
           .then(formatBooks)
           .then((formattedBooks) => dispatch(receiveBooks(formattedBooks)))
           .then(() => dispatch(setAuthedUser('tylermcginnis33')))

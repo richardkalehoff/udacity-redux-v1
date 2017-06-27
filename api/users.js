@@ -62,12 +62,12 @@ function getData (token) {
   return data
 }
 
-const get = (token, id) => {
+const getUsers = (token, id) => {
   return new Promise((res) => {
     res(getData(token))
   })
 }
 
 module.exports = {
-  get
+  getUsers
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 import throttle from 'lodash.throttle'
-import { search } from '../utils/booksAPI'
+import { search } from '../utils/api'
 import Book from './Book'
 import { receiveBooks, ownBook } from '../actions'
 import { connect } from 'react-redux'

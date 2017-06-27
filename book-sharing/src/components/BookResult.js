@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { get } from '../utils/booksAPI'
+import { getBook } from '../utils/api'
 import Book from './Book'
 import { borrowBook, returnBook } from '../actions'
 import ReactLoading from 'react-loading'
@@ -14,7 +14,7 @@ class BookResult extends Component {
     const { book, match } = this.props
 
     if (!book) {
-      get(match.params.id)
+      getBook(match.params.id)
         .then((book) => this.setState({ loading: false, book }))
     } else {
       this.setState({ loading: false, book })

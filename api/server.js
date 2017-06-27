@@ -6,6 +6,7 @@ const cors = require('cors')
 const morgan = require('morgan')
 const config = require('./config')
 const books = require('./books')
+const users = require('./users')
 
 const app = express()
 
@@ -28,6 +29,8 @@ app.get('/', (req, res) => {
     GET /books/:id
     POST /books { bookIds }
     POST /search { query, maxResults }
+
+    GET /users
   </pre>
   `
 
@@ -106,6 +109,20 @@ app.post('/search', bodyParser.json(), (req, res) => {
       error: 'Please provide a query in the request body'
     })
   }
+})
+
+app.get('/users', (req, res) => {
+  users.getUsers(req.token)
+    .then(
+      (users) => res.send(users),
+      (error) => {
+        console.error(error)
+
+        res.status(500).send({
+          error: 'There was an error retrieving the questions'
+        })
+      }
+    )
 })
 
 app.listen(config.port, () => {

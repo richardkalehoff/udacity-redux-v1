@@ -10,13 +10,13 @@ const headers = {
   'Authorization': token
 }
 
-export function get (bookId) {
+export function getBook (bookId) {
   return fetch(`${api}/books/${bookId}`, { headers })
     .then(res => res.json())
 }
 
-export function getAll (bookIds) {
-  return Promise.all(bookIds.map(get))
+export function getAllBooks (bookIds) {
+  return Promise.all(bookIds.map(getBook))
 }
 
 export function search (query, maxResults) {
@@ -31,3 +31,10 @@ export function search (query, maxResults) {
   .then((res => res.json()))
   .then(({ books }) => books)
 }
+
+export function getUsers () {
+  return fetch(`${api}/users`, { headers })
+    .then((res) => res.json())
+    .then((data) => data.users)
+}
+
