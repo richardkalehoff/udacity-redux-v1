@@ -10,8 +10,8 @@ export default function Book ({ book, children }) {
       <BookCover title={title} thumbnail={thumbnail} />
       <ul>
         {title && <li className='book-title'>{title}</li>}
-        {authors && <li>{book.authors.join(', ')}</li>}
-        {averageRating && <li style={{marginBottom: 10}}><Rater interactive={false} rating={averageRating} /></li>}
+        {authors && <li className='book-authors'>{book.authors.join(', ')}</li>}
+        {averageRating && <li className='book-rating'><Rater interactive={false} rating={averageRating} /></li>}
         {description && <li dangerouslySetInnerHTML={{__html: description}} />}
         {children && <li>{children}</li>}
       </ul>

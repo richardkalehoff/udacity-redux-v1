@@ -14,6 +14,7 @@ import {
 import { getUsers } from '../utils/usersAPI'
 import { getAll } from '../utils/booksAPI'
 import { connect } from 'react-redux'
+import ReactLoading from 'react-loading'
 
 function formatUsers (users) {
   return Object.keys(users)
@@ -87,7 +88,7 @@ class App extends Component {
         <div className='container'>
           <Nav />
           {this.props.loading === true
-            ? <p>Loading</p>
+            ? <ReactLoading className='loading' type='spin' color='black' />
             : <div>
                 <Route path='/' exact component={Dashboard} />
                 <Route path='/books' exact component={SearchBooks} />

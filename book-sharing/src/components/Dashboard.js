@@ -58,7 +58,7 @@ class Dashboard extends Component {
                 <li key={book.id}>
                   <Book book={book}>
                     {borrower && (
-                      <p style={{fontWeight: 'bold', fontStyle: 'italic'}}>*This book is currently being borrowed by {borrower.name}</p>
+                      <p className='emphasize'>*This book is currently being borrowed by {borrower.name}</p>
                     )}
                   </Book>
                 </li>
@@ -66,10 +66,9 @@ class Dashboard extends Component {
             : booksBorrowed.map(({ book, owner }) => (
                 <li key={book.id}>
                   <Book book={book}>
-                    <div>
-                      <p>You borrowed this book from {owner.name}</p>
-                    </div>
+                    <p className='emphasize'>You borrowed this book from {owner.name}</p>
                     <button
+                      className='btn'
                       onClick={() => dispatch(returnBook({ authedId, bookId: book.id, ownerId: owner.id}))}>
                         Return Book
                     </button>

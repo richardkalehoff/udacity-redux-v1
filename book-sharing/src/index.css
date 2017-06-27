@@ -1,4 +1,4 @@
-body {
+html, body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
@@ -9,14 +9,72 @@ a {
   color: #252525;
 }
 
+ul {
+  padding: 0;
+  margin: 0;
+}
+
 li {
   list-style-type: none;
   text-decoration: none;
 }
 
+.loading {
+  align-self: center;
+  margin: 0 auto;
+}
+
+.btn {
+  text-transform: uppercase;
+  margin: 20px 10px 10px 0;
+  padding: 10px;
+  border: 1px solid rgba(0,0,0,.29);
+  cursor: pointer;
+  background: #fff;
+  font-size: 16px;
+  width: 250px;
+  position: relative;
+}
+
+.btn:hover {
+  border-color: rgba(0,0,0,.5);
+  text-decoration: none;
+}
+
+.btn:focus {
+  outline: 0;
+  font-weight: 700;
+  border-width: 2px;
+}
+
+.small {
+  margin: 10px 5px 5px 0;
+  padding: 5px;
+  width: 100px;
+  font-size: 13px;
+}
+
+.search-input {
+  width: 95%;
+  margin: 10px auto 50px auto;
+  box-sizing: border-box;
+  padding: 20px;
+  background-repeat: no-repeat;
+  background-position: 20px center;
+  background-size: 1.2em;
+  font-size: 1.2em;
+  outline: none;
+}
+
 .container {
   max-width: 1200px;
   margin: 0 auto;
+  padding: 0 20px;
+}
+
+.emphasize {
+  font-weight: bold;
+  font-style: italic;
 }
 
 .dashboard-toggle {
@@ -24,6 +82,7 @@ li {
   justify-content: center;
   align-items: center;
   font-size: 22px;
+  margin: 20px 0;
 }
 
 .dashboard-toggle button {
@@ -40,7 +99,6 @@ li {
 .dashboard-list a:hover {
   font-weight: 600;
 }
-
 
 .book-cover {
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
@@ -61,10 +119,15 @@ li {
   flex-direction: row;
   justify-content: flex-start;
   text-decoration: none;
+  padding: 20px 0;
 }
 
 .nav li {
   padding: 10px;
+}
+
+.nav li:first-child {
+  padding-left: 0;
 }
 
 .book-container {
@@ -74,10 +137,19 @@ li {
 
 .book-container ul {
   flex: 1;
+  padding-left: 20px;
 }
 
 .book-title {
   font-size: 35px;
+}
+
+.book-authors {
+  margin: 5px 0;
+}
+
+.book-rating {
+  margin-bottom: 10px;
 }
 
 .react-rater {

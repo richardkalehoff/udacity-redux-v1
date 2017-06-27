@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { get } from '../utils/booksAPI'
 import Book from './Book'
 import { borrowBook, returnBook } from '../actions'
+import ReactLoading from 'react-loading'
 
 class BookResult extends Component {
   state = {
@@ -24,7 +25,7 @@ class BookResult extends Component {
     const { availableFrom, dispatch, authedId, alreadyOwned, borrowedFrom } = this.props
 
     if (loading === true) {
-      return <div>Loading</div>
+      return <ReactLoading className='loading' type='spin' color='black' />
     }
 
     if (alreadyOwned) {
@@ -48,19 +49,28 @@ class BookResult extends Component {
 
     return (
       <div>
-        <Book book={book} />
-        {availableFrom.length === 0
-          ? <p> This book is not available </p>
-          : <div>
-              <h1>Borrow from...</h1>
-              {availableFrom.map(({ id, name, avatarURL }) => (
-                <div key={id}>
-                  <img src={avatarURL} alt={`Avatar for ${name}`} style={{height: 50, width: 50}}/>
-                  <span>{name}</span>
-                  <button onClick={() => dispatch(borrowBook({authedId, ownerId: id, bookId: book.id}))}>Borrow</button>
-                </div>
-              ))}
-            </div>}
+        <Book book={book}>
+          {availableFrom.length === 0
+            ? <p className='emphasize'> This book is not available </p>
+            : <div>
+                <h3 className='emphasize'>This book is available from</h3>
+                <ul>
+                  {availableFrom.map(({ id, name, avatarURL }) => (
+                    <li key={id}>
+                      <div style={{display: 'flex', alignItems: 'center'}}>
+                        <img
+                          style={{width: 30, height: 30}}
+                          src={avatarURL}
+                          alt={`avatar of ${name}`}
+                        />
+                        <span style={{margin: '0 10px'}}>{name}</span>
+                        <button className='btn small' onClick={() => dispatch(borrowBook({authedId, ownerId: id, bookId: book.id}))}>Borrow</button>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>}
+        </Book>
       </div>
     )
   }

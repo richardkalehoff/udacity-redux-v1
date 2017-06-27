@@ -4,6 +4,7 @@ import { search } from '../utils/booksAPI'
 import Book from './Book'
 import { receiveBooks, ownBook } from '../actions'
 import { connect } from 'react-redux'
+import ReactLoading from 'react-loading'
 
 function toObject (books) {
   return books.reduce((results, book) => {
@@ -57,21 +58,22 @@ class SearchBooks extends React.Component {
         <input
           type="text"
           value={query}
+          className='search-input'
           onChange={event => this.updateQuery(event.target.value)}
           ref={node => this.input = node}
           placeholder="Search by title, author, or ISBN"
         />
 
         {loading === true
-          ? <p> Loading </p>
+          ? <ReactLoading className='loading' type='spin' color='black' />
           : <div>
               {books.map((book) => (
                 <Book key={book.id} book={book}>
                   {authedUsersBooks && typeof authedUsersBooks[book.id] !== 'undefined'
-                    ? <div>You own this</div>
+                    ? <p className='emphasize'>You own this</p>
                     : <div>
-                        <button onClick={() => this.handleBorrowIt(book)}>Borrow it</button>
-                        <button onClick={() => dispatch(ownBook({ authedId, bookId: book.id}))}>I own it</button>
+                        <button className='btn' onClick={() => this.handleBorrowIt(book)}>Borrow it</button>
+                        <button className='btn' onClick={() => dispatch(ownBook({ authedId, bookId: book.id}))}>I own it</button>
                       </div>}
                 </Book>
               ))}
