@@ -6,6 +6,7 @@ import Nav from './Nav'
 import Question from './Question'
 import Dashboard from './Dashboard'
 import AddQuestion from './AddQuestion'
+import ReactLoading from 'react-loading'
 
 import {
   setAuthedUser,
@@ -37,7 +38,7 @@ class App extends Component {
         <div className='container'>
           <Nav />
           {this.props.loading === true
-            ? <p>Loading</p>
+            ? <ReactLoading className='loading' type='spin' color='black' />
             : <div>
                 <Route path='/' exact component={Dashboard} />
                 <Route path='/questions/:id' component={Question} />

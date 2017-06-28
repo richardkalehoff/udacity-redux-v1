@@ -1,6 +1,6 @@
-import { formatQuestions, formatQuestion } from './helpers'
+import { formatQuestions } from './helpers'
 
-const api = process.env.REDUX_ASSESSMENT_QUESTIONS_API || 'http://localhost:5002'
+const api = process.env.REDUX_ASSESSMENT_API || 'http://localhost:5002'
 
 let token = localStorage.token
 
@@ -10,12 +10,6 @@ if (!token)
 const headers = {
   'Accept': 'application/json',
   'Authorization': token
-}
-
-export function get (id) {
-  return fetch(`${api}/questions/${id}`, { headers })
-    .then(res => res.json())
-    .then((question) => formatQuestion(question))
 }
 
 export function getQuestions () {
@@ -44,4 +38,9 @@ export function selectOption (id, option) {
     },
     body: JSON.stringify({option})
   }).then(res => res.json())
+}
+
+export function getUser (id) {
+  return fetch(`${api}/users/${id}`, { headers })
+    .then((res) => res.json())
 }
