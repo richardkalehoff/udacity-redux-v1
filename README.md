@@ -7,7 +7,7 @@ There are currently 2 projects:
   1. Book Sharing - to be completed by students during the course
   2. Would you Rather - to be completed by students during the assessment
 
-Additionally, there is a starter template for the assessment project in the [`would-you-rather`](would-you-rather) directory.
+Additionally, there is a starter template for the assessment project in the [`would-you-rather-starter`](would-you-rather-starter) directory.
 
 ## Development
 
