@@ -30,48 +30,51 @@ class BookResult extends Component {
 
     if (alreadyOwned) {
       return (
-        <div>
-          <Book book={book} />
-          <div>You already own this book.</div>
-        </div>
+        <Book book={book}>
+          <p className='emphasize'>
+            You already own this book
+          </p>
+        </Book>
       )
     }
 
     if (borrowedFrom) {
       return (
-        <div>
-          <Book book={book} />
-          <div>You borrowed this book from {borrowedFrom.name}</div>
-          <button onClick={() => dispatch(returnBook({authedId, bookId: book.id, ownerId: borrowedFrom.id}))}>Return Book</button>
-        </div>
+        <Book book={book}>
+          <p className='emphasize'>You borrowed this book from {borrowedFrom.name}</p>
+          <button
+            className='btn'
+            onClick={() => dispatch(returnBook({authedId, bookId: book.id, ownerId: borrowedFrom.id}))}>
+              Return Book
+          </button>
+        </Book>
       )
     }
 
     return (
-      <div>
-        <Book book={book}>
-          {availableFrom.length === 0
-            ? <p className='emphasize'> This book is not available </p>
-            : <div>
-                <h3 className='emphasize'>This book is available from</h3>
-                <ul>
-                  {availableFrom.map(({ id, name, avatarURL }) => (
-                    <li key={id}>
-                      <div style={{display: 'flex', alignItems: 'center'}}>
-                        <img
-                          style={{width: 30, height: 30}}
-                          src={avatarURL}
-                          alt={`avatar of ${name}`}
-                        />
-                        <span style={{margin: '0 10px'}}>{name}</span>
-                        <button className='btn small' onClick={() => dispatch(borrowBook({authedId, ownerId: id, bookId: book.id}))}>Borrow</button>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </div>}
-        </Book>
-      </div>
+      <Book book={book}>
+        {availableFrom.length === 0
+          ? <p className='emphasize'> This book is not available </p>
+          : <div>
+              <h3 className='emphasize'>This book is available from</h3>
+              <ul>
+                {availableFrom.map(({ id, name, avatarURL }) => (
+                  <li className='available-item' key={id}>
+                    <img
+                      src={avatarURL}
+                      alt={`avatar of ${name}`}
+                    />
+                    <span>{name}</span>
+                    <button
+                      className='btn small'
+                      onClick={() => dispatch(borrowBook({authedId, ownerId: id, bookId: book.id}))}>
+                        Borrow
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>}
+      </Book>
     )
   }
 }

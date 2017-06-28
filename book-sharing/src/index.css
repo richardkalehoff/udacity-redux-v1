@@ -175,3 +175,17 @@ li {
 .react-rater a.is-disabled {
   cursor: default;
 }
+
+.available-item {
+  display: flex;
+  align-items: center;
+}
+
+.available-item img {
+  width: 30px;
+  height: 30px;
+}
+
+.available-item span {
+  margin: 0 10px;
+}
