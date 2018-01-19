@@ -79,8 +79,8 @@ app.get('/questions/:id', (req, res) => {
 })
 
 app.post('/questions', bodyParser.json(), (req, res) => {
-  const { timestamp, optionOneText, optionTwoText } = req.body
-  if (!timestamp || !optionOneText || !optionTwoText) {
+  const { author, optionOneText, optionTwoText } = req.body
+  if (!author || !optionOneText || !optionTwoText) {
     res.status(403).send({
       error: 'Please provide a properly formatted question.'
     })

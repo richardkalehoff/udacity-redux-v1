@@ -115,6 +115,7 @@ function add (token, question) {
   return new Promise((res) => {
     let questions = getData(token)
     const id = generateUID()
+    const timestamp = Date.now()
 
     questions[id] = {
       id,
@@ -129,7 +130,17 @@ function add (token, question) {
       }
     }
 
-    res({id})
+    res({
+      optionOneCount: 0,
+      optionTwoCount: 0,
+      optionOneVoters: [],
+      optionTwoVoters: [],
+      timestamp,
+      id,
+      author: question.author,
+      optionOneText: question.optionOneText,
+      optionTwoText: question.optionTwoText,
+    })
   })
 }
 
