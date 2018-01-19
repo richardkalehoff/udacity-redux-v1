@@ -103,6 +103,14 @@ li {
   align-items: center;
   justify-content: space-around;
   position: relative;
+
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  margin-top: 10px;
 }
 
 .card {
@@ -170,6 +178,27 @@ li {
   position: absolute;
   top: 5px;
   right: 5px;
+}
+
+.user {
+  display: flex;
+}
+
+.user h1 {
+  margin: 0;
+  font-size: 30px;
+}
+
+.user img {
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  margin-right: 20px;
+}
+
+.user p {
+  margin-top: 6px;
+  margin-bottom: 6px;
 }
 
 @media (max-width: 500px) {

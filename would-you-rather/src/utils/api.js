@@ -18,7 +18,7 @@ export function getQuestions () {
     .then((questions) => formatQuestions(questions))
 }
 
-export function newQuestion (question) {
+export function saveQuestion (question) {
   return fetch(`${api}/questions`, {
     method: 'POST',
     headers: {
@@ -40,7 +40,7 @@ export function selectOption (id, option) {
   }).then(res => res.json())
 }
 
-export function getUser (id) {
-  return fetch(`${api}/users/${id}`, { headers })
+export function getUsers () {
+  return fetch(`${api}/users`, { headers })
     .then((res) => res.json())
 }

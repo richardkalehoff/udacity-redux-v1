@@ -55,13 +55,13 @@ class Dashboard extends Component {
   }
 }
 
-function mapStateToProps ({ authedId, usersAnswers, questions }) {
-  const answeredIds = Object.keys(usersAnswers[authedId])
-  const unansweredIds = Object.keys(questions)
-    .filter((id) => typeof usersAnswers[authedId][id] === 'undefined')
+function mapStateToProps ({ authedUser, questions, users }) {
+  const answers = users[authedUser].answers
 
-  const answered = answeredIds.map((id) => questions[id])
-  const unanswered = unansweredIds.map((id) => questions[id])
+  const answered = answers.map((id) => questions[id])
+  const unanswered = Object.keys(questions)
+    .filter((qid) => !answers.includes(qid))
+    .map((id) => questions[id])
 
   return {
     answered,

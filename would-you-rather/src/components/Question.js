@@ -1,17 +1,17 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { addAnswer } from '../actions'
+import { addAnswer } from '../actions/shared'
 import Checked from 'react-icons/lib/io/ios-checkmark-outline'
 import { selectOption } from '../utils/api'
 
-function Card ({ onClick, text, answered, selected, count, percentage }) {
-  return answered
+function Card ({ onClick, text, selected, count, percentage }) {
+  return typeof onClick === 'undefined'
     ? <div className='card'>
         <div>
           {selected && <Checked className='icon' />}
           <div className='percentage'>{percentage}%</div>
           <div className='agree'>
-            {count} {selected === true ? count === 1 ? 'agrees' : 'agree' : 'disagree'}
+            Count: {count}
           </div>
           <div className='decision-text-answered'>
             {text}
@@ -25,10 +25,10 @@ function Card ({ onClick, text, answered, selected, count, percentage }) {
 
 class Question extends Component {
   handleClick(option) {
-    const { dispatch, question, authedId } = this.props
+    const { dispatch, question, authedUser } = this.props
 
     dispatch(addAnswer(
-      authedId,
+      authedUser,
       question.id,
       option,
     ))
@@ -36,9 +36,9 @@ class Question extends Component {
     selectOption(question.id, option)
   }
   render() {
-    const { question, answer } = this.props
+    const { question, answer, authorAvatar } = this.props
 
-    if (typeof question === 'undefined') {
+    if (!question) {
       return <p style={{textAlign: 'center'}}>This question doesn't exist</p>
     }
 
@@ -50,19 +50,17 @@ class Question extends Component {
 
       return (
         <div className='question-container'>
-          <div className='or'><span>or</span></div>
+          <img className='avatar or' src={authorAvatar} alt="Author's avatar" />
           <Card
             text={optionOneText}
             count={optionOneCount}
             percentage={total === 0 ? 0 : parseInt(optionOneCount / total * 100, 10)}
-            answered={!!answer}
             selected={answer === 'optionOne'}
           />
           <Card
             text={optionTwoText}
             count={optionTwoCount}
             percentage={total === 0 ? 0 : parseInt(optionTwoCount / total * 100, 10)}
-            answered={!!answer}
             selected={answer === 'optionTwo'}
           />
         </div>
@@ -71,7 +69,7 @@ class Question extends Component {
 
     return (
       <div className='question-container'>
-        <div className='or'><span>or</span></div>
+        <img className='avatar or' src={authorAvatar} alt="Author's avatar" />
         <Card
           onClick={() => this.handleClick('optionOne')}
           text={optionOneText}
@@ -85,12 +83,30 @@ class Question extends Component {
   }
 }
 
-function mapStateToProps ({authedId, usersAnswers, questions}, { match }) {
+function mapStateToProps ({ authedUser, questions, users }, { match }) {
   const { id } = match.params
+  const question = questions[id]
+
+  if (!question) {
+    return {
+      question: null
+    }
+  }
+
+  let answer
+  if (question.optionOneVoters.includes(authedUser)) {
+    answer = 'optionOne'
+  } else if (question.optionTwoVoters.includes(authedUser)) {
+    answer = 'optionTwo'
+  } else {
+    answer = null
+  }
+
   return {
-    question: questions[id],
-    answer: usersAnswers[authedId][id],
-    authedId,
+    question,
+    answer,
+    authedUser,
+    authorAvatar: users[question.author].avatarURL,
   }
 }
 

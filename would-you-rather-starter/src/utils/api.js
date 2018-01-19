@@ -18,7 +18,7 @@ export function getQuestions () {
     .then((questions) => formatQuestions(questions))
 }
 
-export function newQuestion (question) {
+export function saveQuestion (question) {
   return fetch(`${api}/questions`, {
     method: 'POST',
     headers: {

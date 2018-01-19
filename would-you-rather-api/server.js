@@ -79,8 +79,8 @@ app.get('/questions/:id', (req, res) => {
 })
 
 app.post('/questions', bodyParser.json(), (req, res) => {
-  const { id, timestamp, optionOneText, optionTwoText } = req.body
-  if (!id || !timestamp || !optionOneText || !optionTwoText) {
+  const { timestamp, optionOneText, optionTwoText } = req.body
+  if (!timestamp || !optionOneText || !optionTwoText) {
     res.status(403).send({
       error: 'Please provide a properly formatted question.'
     })
@@ -120,6 +120,20 @@ app.post('/questions/:id', bodyParser.json(), (req, res) => {
   }
 })
 
+app.get('/users', (req, res) => {
+  users.getAll(req.token)
+    .then(
+      (data) => res.send(data),
+      (error) => {
+        console.error(error)
+
+        res.status(500).send({
+          error: 'There was an error retreiving the users'
+        })
+      }
+    )
+})
+
 app.get('/users/:id', (req, res) => {
   users.get(req.token, req.params.id)
     .then(
@@ -128,7 +142,7 @@ app.get('/users/:id', (req, res) => {
         console.error(error)
 
         res.status(500).send({
-          error: 'There was an error retrieving the questions'
+          error: 'There was an error retrieving the user'
         })
       }
     )

@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { newQuestion } from '../utils/api'
-import { addQuestion } from '../actions'
-import { generateUID } from '../utils/helpers'
+import { saveQuestion } from '../utils/api'
+import { addQuestion } from '../actions/questions'
 
 class AddQuestion extends Component {
   state = {
@@ -11,20 +10,25 @@ class AddQuestion extends Component {
   }
   submitQuestion = () => {
     const { optionOneText, optionTwoText } = this.state
-    const { dispatch, history } = this.props
+    const { dispatch, history, authedUser } = this.props
 
+    // todo
     const question = {
-      id: generateUID(),
       optionOneText,
       optionTwoText,
       optionOneCount: 0,
       optionTwoCount: 0,
       timestamp: Date.now(),
+      optionOneVoters: [],
+      optionTwoVoters: [],
+      author: authedUser
     }
 
-    dispatch(addQuestion(question))
-
-    newQuestion(question)
+    saveQuestion(question)
+      .then(({ id }) => dispatch(addQuestion({
+        ...question,
+        id
+      })))
 
     history.push('/')
   }
@@ -66,4 +70,6 @@ class AddQuestion extends Component {
   }
 }
 
-export default connect()(AddQuestion)
+export default connect((state) => ({
+  authedUser: state.authedUser
+}))(AddQuestion)

@@ -1,8 +1,4 @@
-export function generateUID() {
-  return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
-}
-
-export function formatQuestion ({ id, timestamp, optionOne, optionTwo }) {
+export function formatQuestion ({ id, timestamp, optionOne, optionTwo, author }) {
   return {
     id,
     timestamp,
@@ -10,6 +6,7 @@ export function formatQuestion ({ id, timestamp, optionOne, optionTwo }) {
     optionOneCount: optionOne.count,
     optionTwoText: optionTwo.text,
     optionTwoCount: optionTwo.count,
+    author
   }
 }
 

@@ -1,78 +1,88 @@
 const clone = require('clone')
 
+function generateUID() {
+  return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
+}
+
 let db = {}
 
 const defaultData = {
   "8xf0y6ziyjabvozdd253nd": {
     id: '8xf0y6ziyjabvozdd253nd',
+    author: 'sarah_edo',
     timestamp: 1467166872634,
     optionOne: {
-      count: 19,
-      text: 'be attractive and poor',
+      count: 1,
+      text: 'have horrible short term memory',
     },
     optionTwo: {
-      count: 27,
-      text: 'be ugly and rich'
+      count: 0,
+      text: 'have horrible long term memory'
     }
   },
   "6ni6ok3ym7mf1p33lnez": {
     id: '6ni6ok3ym7mf1p33lnez',
+    author: 'dan_abramov',
     timestamp: 1468479767190,
     optionOne: {
-      count: 14,
+      count: 2,
       text: 'become a superhero',
     },
     optionTwo: {
-      count: 15,
+      count: 0,
       text: 'become a supervillian'
     }
   },
   "am8ehyc8byjqgar0jgpub9": {
     id: 'am8ehyc8byjqgar0jgpub9',
+    author: 'sarah_edo',
     timestamp: 1488579767190,
     optionOne: {
-      count: 19,
+      count: 0,
       text: 'be telekinetic',
     },
     optionTwo: {
-      count: 22,
+      count: 1,
       text: 'be telepathic'
     }
   },
   "loxhs1bqm25b708cmbf3g": {
     id: 'loxhs1bqm25b708cmbf3g',
+    author: 'tylermcginnis',
     timestamp: 1482579767190,
     optionOne: {
-      count: 29,
-      text: 'live in a giant shoe',
+      count: 0,
+      text: 'be a front-end developer',
     },
     optionTwo: {
-      count: 31,
-      text: 'live in a giant peach'
+      count: 1,
+      text: 'be a back-end developer'
     }
   },
   "vthrdm985a262al8qx3do": {
     id: 'vthrdm985a262al8qx3do',
+    author: 'tylermcginnis',
     timestamp: 1489579767190,
     optionOne: {
-      count: 25,
+      count: 1,
       text: 'find $50 yourself',
     },
     optionTwo: {
-      count: 4,
+      count: 1,
       text: 'have your best friend find $500'
     }
   },
   "xj352vofupe1dqz9emx13r": {
     id: 'xj352vofupe1dqz9emx13r',
+    author: 'dan_abramov',
     timestamp: 1493579767190,
     optionOne: {
-      count: 19,
-      text: 'be allergic to babies',
+      count: 1,
+      text: 'write JavaScript',
     },
     optionTwo: {
-      count: 22,
-      text: 'be allergic to elderly people'
+      count: 1,
+      text: 'write Swift'
     }
   },
 }
@@ -104,9 +114,10 @@ function get (token, id) {
 function add (token, question) {
   return new Promise((res) => {
     let questions = getData(token)
+    const id = generateUID()
 
-    questions[question.id] = {
-      id: question.id,
+    questions[id] = {
+      id,
       timestamp: question.timestamp,
       optionOne: {
         count: 0,
@@ -118,7 +129,7 @@ function add (token, question) {
       }
     }
 
-    res(questions)
+    res({id})
   })
 }
 
