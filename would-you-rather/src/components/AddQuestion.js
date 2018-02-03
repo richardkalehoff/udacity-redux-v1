@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { saveQuestion } from '../utils/api'
-import { addQuestion } from '../actions/questions'
+import { handleAddQuestion } from '../actions/questions'
 
 class AddQuestion extends Component {
   state = {
@@ -12,23 +11,13 @@ class AddQuestion extends Component {
     const { optionOneText, optionTwoText } = this.state
     const { dispatch, history, authedUser } = this.props
 
-    // todo
     const question = {
       optionOneText,
       optionTwoText,
-      optionOneCount: 0,
-      optionTwoCount: 0,
-      timestamp: Date.now(),
-      optionOneVoters: [],
-      optionTwoVoters: [],
       author: authedUser
     }
 
-    saveQuestion(question)
-      .then(({ id }) => dispatch(addQuestion({
-        ...question,
-        id
-      })))
+    dispatch(handleAddQuestion(question))
 
     history.push('/')
   }

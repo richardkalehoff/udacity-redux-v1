@@ -19,6 +19,10 @@ a {
   font-weight: 300;
 }
 
+.loading {
+  margin: 0 auto;
+}
+
 .btn {
   text-transform: uppercase;
   margin: 35px auto;

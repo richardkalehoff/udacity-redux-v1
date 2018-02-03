@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { addAnswer } from '../actions/shared'
+import { handleAddAnswer } from '../actions/shared'
 import Checked from 'react-icons/lib/io/ios-checkmark-outline'
-import { selectOption } from '../utils/api'
 
 function Card ({ onClick, text, selected, count, percentage }) {
   return typeof onClick === 'undefined'
@@ -27,13 +26,11 @@ class Question extends Component {
   handleClick(option) {
     const { dispatch, question, authedUser } = this.props
 
-    dispatch(addAnswer(
+    dispatch(handleAddAnswer({
       authedUser,
-      question.id,
-      option,
-    ))
-
-    selectOption(question.id, option)
+      id: question.id,
+      option
+    }))
   }
   render() {
     const { question, answer, authorAvatar } = this.props
